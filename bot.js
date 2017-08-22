@@ -112,10 +112,14 @@ function bot ()
       if(n % 1000000 == 0)
         tweetIt('The biggest prime until now is ' + biggest + '!');
 
-      if(n % 100000 == 0)
+      else if(n % 100000 == 0)
         console.log('found 100000 primes-> ' + biggest);
-      if(n % 1000 == 0)
+      
+      else if(n % 1000 == 0)
         console.log('found 1000 primes -> ' + biggest);
+
+      if(x < 0)
+        console.log('OVERFLOW: ' + x);
     }
     else
       updateX();
