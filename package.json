@@ -1,0 +1,26 @@
+{
+  "name": "twitter_bot",
+  "version": "1.0.0",
+  "description": "A twitter bot that finds prime numbers",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "bot",
+    "twitter",
+    "primes",
+    "numbers",
+    "math",
+    "social",
+    "awesome",
+    "nerds"
+  ],
+  "author": "Duarte Carvalho",
+  "license": "ISC",
+  "dependencies": {
+    "mathjs": "^3.16.2",
+    "twit": "^2.2.9"
+  }
+}
