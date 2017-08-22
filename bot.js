@@ -109,7 +109,7 @@ function bot ()
       
       counter();
       
-      if(n % 1000000 == 0)
+      if(n % 500000 == 0)
         tweetIt('The biggest prime until now is ' + biggest + '!');
 
       else if(n % 100000 == 0)
