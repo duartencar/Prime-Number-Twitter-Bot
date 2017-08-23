@@ -8,11 +8,11 @@ var math = require('mathjs');
 
 var T = new Twit(config);
 
-var x = 5;
+var x = 143480653;
 
 var biggest = 0;
 
-var n = 2;
+var n = 1;
 
 
 /*var params = {
@@ -127,7 +127,7 @@ function bot ()
 
   function updateMsg (biggest)
   {
-    msg = 'The biggest prime until now is ' + biggest + '!';
+    msg = 'The biggest prime until now is ' + biggest + '! #PrimeFinder';
 
     updateX();
   }
