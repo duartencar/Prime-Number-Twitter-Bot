@@ -12,7 +12,7 @@ var x = 143480653;
 
 var biggest = 0;
 
-var n = 1;
+var n = 4500001;
 
 
 /*var params = {
@@ -59,7 +59,7 @@ function bot ()
 
     var screenName = eventMsg.source.screen_name;
 
-    tweetIt('Thanks ' + '@' + screenName + ' for following me! #PrimeFinder')
+    tweetIt('Thanks ' + '@' + screenName + ' for following me! #primeFinder')
   }
 
   function isPrime (z)
@@ -110,13 +110,10 @@ function bot ()
       counter();
       
       if(n % 500000 == 0)
-        tweetIt('The biggest prime until now is ' + biggest + '!');
-
-      else if(n % 100000 == 0)
-        console.log('found 100000 primes-> ' + biggest);
+        tweetIt('The biggest prime until now is ' + biggest + '! #primeFinder');
       
-      else if(n % 1000 == 0)
-        console.log('found 1000 primes -> ' + biggest);
+      else if(n % 10000 == 0)
+        console.log('found ' + n + ' primes -> ' + biggest);
 
       if(x < 0)
         console.log('OVERFLOW: ' + x);
@@ -127,7 +124,7 @@ function bot ()
 
   function updateMsg (biggest)
   {
-    msg = 'The biggest prime until now is ' + biggest + '! #PrimeFinder';
+    msg = 'The biggest prime until now is ' + biggest + '!';
 
     updateX();
   }
