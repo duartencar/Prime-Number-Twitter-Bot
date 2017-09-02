@@ -6,31 +6,97 @@ var config = require('./config');
 
 var math = require('mathjs');
 
+const readMultipleFiles = require('read-multiple-files');
+
 var T = new Twit(config);
 
-var x = 5;
+var x = 0, y;
 
-var biggest = 0;
+var v, k;
 
-var n = 2;
+var biggest;
 
+var n;
 
-/*var params = {
-  q: 'rainbow',
-  count: 5
-};
+//File related
 
-T.get('search/tweets', params, gotData);
+readMultipleFiles(['largestPrime.txt', 'numberOfPrimes.txt'], 'utf8', (err, contents) => {
+  if (err) {
+    throw err;
+  }
+ 
+  x = parseInt(contents[0], 10);
 
-function gotData(err, data, response)
-{
-  var tweets = data.statuses;
+  biggest = x;
 
-  for(var i = 0; i < tweets.length; i++)
-    console.log(tweets[i].text + "\n");
-}*/
+  n = parseInt(contents[1], 10);
+
+  bot();
+});
+
+//File related
+
 function bot ()
 {
+  function initialValues()
+  {
+    console.log("x = " + x);
+
+    console.log("biggest = " + biggest);
+
+    console.log("n = " + n);
+  }
+
+  function updatePrimeFile(x)
+  {
+    var fs = require("fs");
+
+    var writerStream = fs.createWriteStream('largestPrime.txt');
+
+    // Write the data to stream with encoding to be utf8
+    writerStream.write(x.toString(),'UTF8');
+
+    // Mark the end of file
+    writerStream.end();
+
+    // Handle stream events --> finish, and error
+    writerStream.on('finish', function()
+    {
+        console.log("largestPrime.txt updated");
+    });
+
+    writerStream.on('error', function(err)
+    {
+       console.log(err.stack);
+    });
+  }
+
+  function updateNumberFile(x)
+  {
+    var fs = require("fs");
+
+    var writerStream = fs.createWriteStream('numberOfPrimes.txt');
+
+    // Write the data to stream with encoding to be utf8
+    writerStream.write(x.toString(),'UTF8');
+
+    // Mark the end of file
+    writerStream.end();
+
+    // Handle stream events --> finish, and error
+    writerStream.on('finish', function()
+    {
+        console.log("numberOfPrimes.txt updated");
+    });
+
+    writerStream.on('error', function(err)
+    {
+       console.log(err.stack);
+    });
+  }
+
+  initialValues();
+
   var msg;
 
   function tweetIt(msg)
@@ -48,7 +114,6 @@ function bot ()
     }
   }
 
-
   var stream =T.stream('user');
 
   stream.on('follow', followed);
@@ -59,13 +124,11 @@ function bot ()
 
     var screenName = eventMsg.source.screen_name;
 
-    tweetIt('Thanks ' + '@' + screenName + ' for following me! #PrimeFinder')
+    tweetIt('Thanks ' + '@' + screenName + ' for following me! #primeFinder')
   }
 
   function isPrime (z)
   {
-    //console.log("Entered is Pirme = " + z);
-
     for(var i = 3; i < math.sqrt(z) + 1; i += 2)
     {
       if(z % i == 0)
@@ -80,15 +143,12 @@ function bot ()
   }
 
   function updateBiggest (z)
-  {
-    //console.log("Updated biggest = " + z);
-    
+  {    
     biggest = z;
 
     updateMsg(biggest);
-
-    //console.log(msg);
   }
+
   function counter()
   {
     n++;
@@ -109,13 +169,22 @@ function bot ()
       
       counter();
       
-      if(n % 1000000 == 0)
-        tweetIt('The biggest prime until now is ' + biggest + '!');
+      if(n % 500000 == 0)
+      {
+        tweetIt('The biggest prime until now is ' + biggest + '! #primeFinder');
+        updatePrimeFile(biggest);
+        updateNumberFile(n);
+      }
+      
+      else if(n % 10000 == 0)
+      {
+        console.log('found ' + n + ' primes -> ' + biggest);
+        updatePrimeFile(biggest);
+        updateNumberFile(n);
+      }
 
-      if(n % 100000 == 0)
-        console.log('found 100000 primes-> ' + biggest);
-      if(n % 1000 == 0)
-        console.log('found 1000 primes -> ' + biggest);
+      if(x < 0)
+        console.log('OVERFLOW: ' + x);
     }
     else
       updateX();
@@ -129,8 +198,4 @@ function bot ()
   }
 
   setInterval(cal, 1);
-
-  //setInterval(tweetIt, 1000 * 3, 'The biggest prime until now is ' + biggest + '!');
 }
-
-bot();
